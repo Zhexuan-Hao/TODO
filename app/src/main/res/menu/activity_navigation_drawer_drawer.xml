@@ -16,7 +16,20 @@
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_slideshow" />
-
+        <item
+            android:id="@+id/nav_dashboard"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/menu_dashboard" />
+        <item
+            android:id="@+id/nav_add"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/menu_add" />
+        <item
+            android:id="@+id/nav_mine"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/menu_mine" />
+    </group>
+    <group>
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/baseline_logout_24"

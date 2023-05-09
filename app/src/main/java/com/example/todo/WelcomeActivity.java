@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.todo.Firebase.LoginActivity;
 import com.example.todo.databinding.ActivityWelcomeBinding;
 
 public class WelcomeActivity extends AppCompatActivity {

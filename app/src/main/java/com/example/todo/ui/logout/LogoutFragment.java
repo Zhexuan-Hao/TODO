@@ -18,8 +18,8 @@ public class LogoutFragment extends Fragment {
 
 //    public View onCreateView(@NonNull LayoutInflater inflater,
 //                             ViewGroup container, Bundle savedInstanceState) {
-//        SlideshowViewModel slideshowViewModel =
-//                new ViewModelProvider(this).get(SlideshowViewModel.class);
+//
+//
 //
 //
 //

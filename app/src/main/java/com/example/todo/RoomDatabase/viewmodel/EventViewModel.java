@@ -1,0 +1,43 @@
+package com.example.todo.RoomDatabase.viewmodel;
+
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+
+import com.example.todo.RoomDatabase.entity.Event;
+import com.example.todo.RoomDatabase.repository.EventRepository;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+public class EventViewModel extends AndroidViewModel {
+    private EventRepository eRepository;
+    private LiveData<List<Event>> allEvents;
+
+    public EventViewModel(Application application){
+        super(application);
+        eRepository = new EventRepository(application);
+        allEvents = eRepository.getAllEvents();
+    }
+
+    public CompletableFuture<Event> findByIDFuture(final int eventId){
+        return eRepository.findByIDFuture(eventId);
+    }
+
+    public LiveData<List<Event>> getAllEvents(){
+        return allEvents;
+    }
+
+    public void insert(Event event){
+        eRepository.insert(event);
+    }
+
+    public void deleteAll(){
+        eRepository.deleteAll();
+    }
+
+    public void update(Event event){
+        eRepository.updateEvent(event);
+    }
+}
