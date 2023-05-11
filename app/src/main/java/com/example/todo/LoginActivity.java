@@ -1,4 +1,4 @@
-package com.example.todo.Firebase;
+package com.example.todo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,59 +12,71 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.todo.NavigationDrawerActivity;
-import com.example.todo.databinding.ActivityRegisterBinding;
+import com.example.todo.databinding.ActivityLoginBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
-import java.util.UUID;
+public class LoginActivity extends AppCompatActivity {
 
-public class RegisterActivity extends AppCompatActivity {
-
-    private ActivityRegisterBinding binding;
+    private ActivityLoginBinding binding;
     private FirebaseUser user;
     private FirebaseAuth firebaseAuth;
     private Context context;
 
-    private static final String TAG = "Register";
+    private static final String TAG = "Login";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityRegisterBinding.inflate(getLayoutInflater());
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        firebaseAuth = FirebaseAuth.getInstance();
-        context = RegisterActivity.this;
 
-        binding.RegisterRegisterBtn.setOnClickListener(new View.OnClickListener() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        context = LoginActivity.this;
+
+        binding.LoginLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = binding.RegisterEmailEdt.getText().toString();
-                String password = binding.RegisterPasswordEdt.getText().toString();
-
+                String email = binding.LoginEmailEdt.getText().toString();
+                String password = binding.LoginPasswordEdt.getText().toString();
                 if(isValidEmail(email) && isValidPassword(password)) {
-                    createAccount(email, password);
+                    signIn(email, password);
                 } else {
                     Toast.makeText(context, "wrong format", Toast.LENGTH_SHORT).show();
                 }
-//                createAccount(email, password);
+//                signIn(email, password);
             }
         });
 
-        binding.RegisterCancelBtn.setOnClickListener(new View.OnClickListener() {
+        binding.LoginRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(context, LoginActivity.class);
+                Intent intent =new Intent();
+                intent.setClass(context, RegisterActivity.class);
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if(currentUser != null){
+            reload();
+        }
+
+        String token = getSavedToken();
+        if(token != null && "".equals(token)) {
+            signInWithToken(token);
+        }
 
     }
 
@@ -81,31 +93,37 @@ public class RegisterActivity extends AppCompatActivity {
         return password.matches(pattern);
     }
 
-    private void createAccount(String email, String password) {
-        // [START create_user_with_email]
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
+    private void signInWithToken(String token) {
+        firebaseAuth.signInWithCustomToken(token)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
+                            Log.d(TAG, "signInWithToken:success");
                             FirebaseUser user = firebaseAuth.getCurrentUser();
-                            String uuid = String.valueOf(UUID.randomUUID()).substring(0, 12);
-                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                    .setDisplayName("TODOList_" + uuid)
-//                                    .setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
-                                    .build();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithToken:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+                    }
+                });
+    }
 
-                            user.updateProfile(profileUpdates)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                Log.d(TAG, "User profile updated.");
-                                            }
-                                        }
-                                    });
+    private void signIn(String email, String password) {
+        // [START sign_in_with_email]
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
 
                             firebaseAuth.getCurrentUser().getIdToken(true)
                                     .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
@@ -124,22 +142,24 @@ public class RegisterActivity extends AppCompatActivity {
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
                     }
                 });
-        // [END create_user_with_email]
+        // [END sign_in_with_email]
     }
 
-    private void updateUI(FirebaseUser user) {
+    private String getSavedToken() {
+        // 获取SharedPreferences对象
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
-        if(user != null) {
-            Intent intent =new Intent(context, NavigationDrawerActivity.class);
-            startActivity(intent);
-        }
+        // 从SharedPreferences中获取保存的令牌
+        String token = sharedPreferences.getString("token", null);
+
+        return token;
     }
 
     private void saveToken(String token) {
@@ -150,5 +170,18 @@ public class RegisterActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("token", token);
         editor.apply();
+    }
+
+    private void updateUI(FirebaseUser user) {
+        if(user != null) {
+            Intent intent =new Intent(context, NavigationDrawerActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private void reload() {
+        Intent intent = new Intent();
+        intent.setClass(context, NavigationDrawerActivity.class);
+        startActivity(intent);
     }
 }
