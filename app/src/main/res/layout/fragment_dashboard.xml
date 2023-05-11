@@ -18,20 +18,32 @@
             android:layout_height="wrap_content" />
 
 <!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--            android:id="@+id/fab"-->
+<!--            android:id="@+id/icon_function_add"-->
 <!--            app:layout_constraintBottom_toBottomOf="parent"-->
 <!--            app:layout_constraintEnd_toEndOf="parent"-->
 <!--            android:layout_width="wrap_content"-->
 <!--            android:layout_height="wrap_content"-->
 <!--            android:layout_margin="16dp"-->
-<!--            android:contentDescription="@string/add_event"/>-->
+<!--            android:contentDescription="@string/add_event"-->
+<!--            android:src="@drawable/ic_function_add"/>-->
 
 <!--    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
 
-<!--    <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:layout_alignParentBottom="true"/>-->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/icon_function_add"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:contentDescription="@string/add_event"
+                android:src="@drawable/ic_function_add"/>
+    </LinearLayout>
 </LinearLayout>
