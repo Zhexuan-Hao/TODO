@@ -13,11 +13,11 @@ import java.util.List;
 
 @Dao
 public interface EventDAO {
-    @Query("SELECT * FROM event ORDER BY uid ASC")
-    LiveData<List<Event>> getAll();
+    @Query("SELECT * FROM event WHERE email = :email ORDER BY id ASC")
+    LiveData<List<Event>> getAll(String email);
 
-    @Query("SELECT * FROM event WHERE uid = :eventId LIMIT 1")
-    Event findByID(int eventId);
+    @Query("SELECT * FROM event WHERE id = :eventId and email = :email LIMIT 1")
+    Event findByID(int eventId, String email);
 
     @Insert
     void insert(Event event);

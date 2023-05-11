@@ -15,14 +15,14 @@ public class EventViewModel extends AndroidViewModel {
     private EventRepository eRepository;
     private LiveData<List<Event>> allEvents;
 
-    public EventViewModel(Application application){
+    public EventViewModel(Application application, String email){
         super(application);
-        eRepository = new EventRepository(application);
+        eRepository = new EventRepository(application, email);
         allEvents = eRepository.getAllEvents();
     }
 
-    public CompletableFuture<Event> findByIDFuture(final int eventId){
-        return eRepository.findByIDFuture(eventId);
+    public CompletableFuture<Event> findByIDFuture(final int eventId, String email){
+        return eRepository.findByIDFuture(eventId, email);
     }
 
     public LiveData<List<Event>> getAllEvents(){

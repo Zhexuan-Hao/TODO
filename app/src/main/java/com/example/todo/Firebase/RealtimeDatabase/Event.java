@@ -11,6 +11,7 @@ public class Event implements Serializable {
     private String time;
     private String detail;
     private String status;
+    private String email;
 
     public Event() {
     }
@@ -23,11 +24,12 @@ public class Event implements Serializable {
         this.time = time;
     }
 
-    public Event(String name, String time, String detail, String status) {
+    public Event(String name, String time, String detail, String status, String email) {
         this.name = name;
         this.time = time;
         this.detail = detail;
         this.status = status;
+        this.email = email;
     }
 
     public String getKey() {
@@ -60,5 +62,13 @@ public class Event implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

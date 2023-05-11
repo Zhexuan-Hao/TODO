@@ -16,10 +16,10 @@ public class EventRepository {
     private EventDAO eventDao;
     private LiveData<List<Event>> allEvents;
 
-    public EventRepository(Application application){
+    public EventRepository(Application application, String email){
         EventDatabase db = EventDatabase.getInstance(application);
         eventDao = db.eventDao();
-        allEvents = eventDao.getAll();
+        allEvents = eventDao.getAll(email);
     }
 
     public LiveData<List<Event>> getAllEvents(){
@@ -62,11 +62,11 @@ public class EventRepository {
         });
     }
 
-    public CompletableFuture<Event> findByIDFuture(final int eventId){
+    public CompletableFuture<Event> findByIDFuture(final int eventId, String email){
         return CompletableFuture.supplyAsync(new Supplier<Event>() {
             @Override
             public Event get() {
-                return eventDao.findByID(eventId);
+                return eventDao.findByID(eventId, email);
             }
         }, EventDatabase.databaseWriteExecutor);
     }
