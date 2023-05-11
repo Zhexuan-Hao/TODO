@@ -1,4 +1,4 @@
-package com.example.todo;
+package com.example.todo.Room.ViewHolder;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,14 +8,16 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.todo.R;
 import com.example.todo.Room.Entity.Event;
 
-public class MyViewHolder extends RecyclerView.ViewHolder {
+public class EventViewHolder extends RecyclerView.ViewHolder {
+
     CheckBox checkBox;
     TextView nameTextView;
     TextView dateTextView;
 
-    public MyViewHolder(View itemView) {
+    public EventViewHolder(View itemView) {
         super(itemView);
         checkBox = itemView.findViewById(R.id.checkBox);
         nameTextView = itemView.findViewById(R.id.nameTextView);
@@ -28,9 +30,10 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         dateTextView.setText(event.getDate().toString());
     }
 
-    static MyViewHolder create(ViewGroup parent) {
+    public static EventViewHolder create(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_item, parent, false);
-        return new MyViewHolder(view);
+        return new EventViewHolder(view);
     }
+
 }

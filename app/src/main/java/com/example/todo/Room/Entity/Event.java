@@ -12,13 +12,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(tableName = "event")
+@Entity(tableName = "event_table")
 public class Event {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @NonNull
     private int event_id;
-    private int user_id;
+    private String user_id;
     private String title;
     private String content;
     private Date date;
@@ -29,7 +29,7 @@ public class Event {
     public Event() {}
 
     @Ignore
-    public Event(int event_id, int user_id, String title, String content, Date date, Double longitude, Double latitude, int status) {
+    public Event(int event_id, String user_id, String title, String content, Date date, Double longitude, Double latitude, int status) {
         this.event_id = event_id;
         this.user_id = user_id;
         this.title = title;
@@ -48,11 +48,11 @@ public class Event {
         this.event_id = event_id;
     }
 
-    public int getUser_id() {
+    public String getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
 
