@@ -15,14 +15,14 @@ import java.util.List;
 @Dao
 public interface EventDao {
 
-    @Query("select * from event")
-    public List<Event> selectAllEvent();
+    @Query("select * from event_table")
+    public LiveData<List<Event>> selectAllEvent();
 
-    @Query("select * from event where event_id = (:eventId)")
+    @Query("select * from event_table where event_id = (:eventId)")
     public Event selectEventById(int eventId);
 
-    @Query("select * from event where user_id = (:userId)")
-    public List<Event> selectEventByUserId(String userId);
+    @Query("select * from event_table where user_id = (:userId)")
+    public LiveData<List<Event>> selectEventByUserId(String userId);
 
     @Update
     public void updateEventById(Event event);
@@ -32,4 +32,7 @@ public interface EventDao {
 
     @Delete
     public void deleteEvent(Event event);
+
+    @Query("delete from event_table")
+    public void deleteAllEvents();
 }

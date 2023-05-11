@@ -19,11 +19,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.todo.Livedata.EventViewModel;
 import com.example.todo.MyAdapter;
+import com.example.todo.Room.Adapter.EventAdapter;
 import com.example.todo.Room.Dao.EventDao;
 import com.example.todo.Room.Database.EventDatabase;
 import com.example.todo.Room.Entity.Event;
+import com.example.todo.Room.ViewModel.EventViewModel;
 import com.example.todo.databinding.FragmentDashboardBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,7 +36,9 @@ public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
 
-    private List<Event> eventList;
+    private LiveData<List<Event>> eventList;
+
+    private EventViewModel eventViewModel;
 
     private FirebaseUser user;
 
@@ -48,34 +51,52 @@ public class DashboardFragment extends Fragment {
         View root = binding.getRoot();
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        EventViewModel model = new
-                ViewModelProvider(requireActivity()).get(EventViewModel.class);
-        model.getEvents().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                updateUI();
-            }
-        });
+//        EventViewModel model = new
+//                ViewModelProvider(requireActivity()).get(EventViewModel.class);
+//        model.getEvents().observe(getViewLifecycleOwner(), new Observer<String>() {
+//            @Override
+//            public void onChanged(@Nullable String s) {
+//                adapter.submitList(events);
+//            }
+//        });
 
 
-        eventList = getData();
+//        eventList = getData();
+//        eventList = new MutableLiveData<>();
+//        List<Event> events = new ArrayList<>();
+//        eventList.poS
+
 
         RecyclerView recyclerView = binding.recyclerView;
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        final EventAdapter adapter = new EventAdapter(new EventAdapter.EventDiff());
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        MyAdapter adapter = new MyAdapter(eventList);
-        recyclerView.setAdapter(adapter);
+        // Get a new or existing ViewModel from the ViewModelProvider.
+        eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
 
-        SwipeRefreshLayout swipeRefreshLayout = binding.swipeRefreshLayout;
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // 执行下拉刷新操作
-                adapter.notifyDataSetChanged();
-                eventList = getData();
-                swipeRefreshLayout.setRefreshing(false); // 关闭下拉刷新动画
-            }
+        // Add an observer on the LiveData returned by getAlphabetizedWords.
+        // The onChanged() method fires when the observed data changes and the activity is
+        // in the foreground.
+        eventViewModel.getEvents().observe(getViewLifecycleOwner(), events -> {
+            // Update the cached copy of the words in the adapter.
+            adapter.submitList(events);
         });
+//        MyAdapter adapter = new MyAdapter(eventList.getValue());
+//        recyclerView.setAdapter(adapter);
+
+//        SwipeRefreshLayout swipeRefreshLayout = binding.swipeRefreshLayout;
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                // 执行下拉刷新操作
+//                adapter.notifyDataSetChanged();
+//                eventList = getData();
+//                swipeRefreshLayout.setRefreshing(false); // 关闭下拉刷新动画
+//            }
+//        });
 
         return root;
     }
@@ -86,24 +107,24 @@ public class DashboardFragment extends Fragment {
         binding = null;
     }
 
-    public LiveData<List<Event>> getData() {
-        MutableLiveData<List<Event>> data = new MutableLiveData<>();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                EventDatabase eventDatabase = Room.databaseBuilder(getContext(),
-                        EventDatabase.class, "EventDatabase").build();
-                EventDao eventDao = eventDatabase.eventDao();
-                List<Event> events = eventDao.selectEventByUserId(user.getUid());
-
-                // 在background thread中更新LiveData数据
-                data.postValue(events);
-            }
-        }).start();
-
-        // 返回LiveData对象
-        return data;
-    }
+//    public LiveData<List<Event>> getData() {
+//        MutableLiveData<List<Event>> data = new MutableLiveData<>();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                EventDatabase eventDatabase = Room.databaseBuilder(getContext(),
+//                        EventDatabase.class, "EventDatabase").build();
+//                EventDao eventDao = eventDatabase.eventDao();
+//                List<Event> events = eventDao.selectEventByUserId(user.getUid());
+//
+//                // 在background thread中更新LiveData数据
+//                data.postValue(events);
+//            }
+//        }).start();
+//
+//        // 返回LiveData对象
+//        return data;
+//    }
 
 
 //    public List<Event> getData() {

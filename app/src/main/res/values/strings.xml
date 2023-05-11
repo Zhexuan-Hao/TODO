@@ -14,4 +14,5 @@
     <string name="menu_add">Add</string>
     <string name="menu_mine">Mine</string>
     <string name="menu_logout">Logout</string>
+    <string name="add_event">Add</string>
 </resources>
