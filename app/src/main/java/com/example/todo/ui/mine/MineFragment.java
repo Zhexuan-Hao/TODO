@@ -21,6 +21,8 @@ import com.example.todo.databinding.FragmentSlideshowBinding;
 import com.example.todo.ui.slideshow.SlideshowViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MineFragment extends Fragment {
 
@@ -58,6 +60,20 @@ public class MineFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+
+        // 获取 Firebase 实例
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        // 获取根引用
+        DatabaseReference rootRef = database.getReference();
+        // 在根引用上添加路径，获取指向特定节点的引用
+        DatabaseReference usersRef = rootRef.child("Event");
+        // 通过引用写入数据
+        usersRef.child("user1").setValue("John");
+        usersRef.child("user2").setValue("Jane");
+
+
+
 
         return root;
     }
