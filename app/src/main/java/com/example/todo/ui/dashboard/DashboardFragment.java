@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -20,12 +21,15 @@ import androidx.room.Room;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.todo.MyAdapter;
+import com.example.todo.R;
 import com.example.todo.Room.Adapter.EventAdapter;
 import com.example.todo.Room.Dao.EventDao;
 import com.example.todo.Room.Database.EventDatabase;
 import com.example.todo.Room.Entity.Event;
 import com.example.todo.Room.ViewModel.EventViewModel;
 import com.example.todo.databinding.FragmentDashboardBinding;
+import com.example.todo.ui.add.AddFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -51,24 +55,10 @@ public class DashboardFragment extends Fragment {
         View root = binding.getRoot();
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-//        EventViewModel model = new
-//                ViewModelProvider(requireActivity()).get(EventViewModel.class);
-//        model.getEvents().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                adapter.submitList(events);
-//            }
-//        });
 
-
-//        eventList = getData();
-//        eventList = new MutableLiveData<>();
-//        List<Event> events = new ArrayList<>();
-//        eventList.poS
 
 
         RecyclerView recyclerView = binding.recyclerView;
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         final EventAdapter adapter = new EventAdapter(new EventAdapter.EventDiff());
         recyclerView.setAdapter(adapter);
@@ -97,6 +87,15 @@ public class DashboardFragment extends Fragment {
 //                swipeRefreshLayout.setRefreshing(false); // 关闭下拉刷新动画
 //            }
 //        });
+
+        FloatingActionButton addBtn = binding.iconFunctionAdd;
+        addBtn.setOnClickListener(view -> {
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.nav_host_fragment_content_navigation_drawer, new AddFragment(), null)
+                    .addToBackStack(null)
+                    .commit();
+        });
 
         return root;
     }
