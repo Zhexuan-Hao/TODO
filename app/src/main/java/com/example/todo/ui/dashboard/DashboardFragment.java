@@ -15,6 +15,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -88,13 +90,17 @@ public class DashboardFragment extends Fragment {
 //            }
 //        });
 
+        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_navigation_drawer);
+
+
         FloatingActionButton addBtn = binding.iconFunctionAdd;
         addBtn.setOnClickListener(view -> {
-            getActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.nav_host_fragment_content_navigation_drawer, new AddFragment(), null)
-                    .addToBackStack(null)
-                    .commit();
+//            getActivity().getSupportFragmentManager()
+//                    .beginTransaction()
+//                    .replace(R.id.nav_host_fragment_content_navigation_drawer, new AddFragment(), null)
+//                    .addToBackStack(null)
+//                    .commit();
+            navController.navigate(R.id.action_nav_dashboard_to_nav_add); // 导航到目标Fragment
         });
 
         return root;

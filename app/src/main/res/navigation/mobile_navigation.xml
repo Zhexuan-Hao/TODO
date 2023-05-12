@@ -28,12 +28,9 @@
         android:name="com.example.todo.ui.dashboard.DashboardFragment"
         android:label="@string/menu_dashboard"
         tools:layout="@layout/fragment_dashboard" >
-<!--        <action-->
-<!--            android:id="@+id/action_nav_dashboard_to_nav_add"-->
-<!--            app:destination="@id/nav_add" />-->
-<!--        <action-->
-<!--            android:id="@+id/action_nav_dashboard_to_nav_mine"-->
-<!--            app:destination="@id/nav_mine" />-->
+        <action
+            android:id="@+id/action_nav_dashboard_to_nav_add"
+            app:destination="@id/nav_add" />
     </fragment>
 
     <fragment
