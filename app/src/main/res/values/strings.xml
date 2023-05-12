@@ -13,6 +13,7 @@
     <string name="menu_dashboard">Dashboard</string>
     <string name="menu_add">Add</string>
     <string name="menu_mine">Mine</string>
+    <string name="menu_statistic">Statistic</string>
     <string name="menu_logout">Logout</string>
     <string name="add_event">Add</string>
     <!-- TODO: Remove or change this placeholder text -->

@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.todo.LoginActivity;
+import com.example.todo.Retrofit.RetrofitClient;
+import com.example.todo.Retrofit.Weather.Constant;
+import com.example.todo.Retrofit.Weather.WeatherService;
 import com.example.todo.databinding.ActivityWelcomeBinding;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -22,6 +24,8 @@ public class WelcomeActivity extends AppCompatActivity {
         binding = ActivityWelcomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         context = WelcomeActivity.this;
+
+//        RetrofitClient.getRetrofitInstance(Constant.BASE_URL).create(WeatherService.class);
 
         binding.WelcomeStartBtn.setOnClickListener(new View.OnClickListener() {
             @Override

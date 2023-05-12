@@ -16,7 +16,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
+import com.example.todo.R;
 import com.example.todo.Room.Entity.User;
 import com.example.todo.WelcomeActivity;
 import com.example.todo.databinding.FragmentMineBinding;
@@ -69,8 +72,23 @@ public class MineFragment extends Fragment {
         Nickname.setText(user.getDisplayName());
         Email.setText(user.getEmail());
 
-        Statistic = binding.MineStatisticBtn;
-        Logout = binding.MineLogoutBtn;
+
+        binding.MineStatisticBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavController navController = Navigation.findNavController(root);
+                navController.navigate(R.id.action_nav_mine_to_nav_statistic);
+            }
+        });
+
+        binding.MineLogoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent =new Intent(getContext(), WelcomeActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return root;
     }
