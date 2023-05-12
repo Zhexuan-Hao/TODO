@@ -32,4 +32,12 @@ public class EventViewModel extends AndroidViewModel {
     public LiveData<List<Event>> getEvents() { return eventList; }
 
     public void insert(Event event) { eventRepository.insert(event); }
+
+    public void update(Event event) {
+        eventRepository.update(event);
+    }
+
+    public void delete(Event event) {
+        eventRepository.delete(event);
+    }
 }

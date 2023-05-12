@@ -44,4 +44,15 @@ public class EventRepository {
         });
     }
 
+    public void update(Event event) {
+        EventDatabase.databaseWriteExecutor.execute(() -> {
+            eventDao.updateEvent(event);
+        });
+    }
+
+    public void delete(Event event) {
+        EventDatabase.databaseWriteExecutor.execute(() -> {
+            eventDao.deleteEvent(event);
+        });
+    }
 }

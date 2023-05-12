@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
@@ -46,7 +47,6 @@ dependencies {
 //    implementation files('libs/AMap_Location_V6.3.0_20230410.jar')
 //    implementation files('libs/AMap_Search_V9.4.0_20220808.jar')
 //    implementation files('libs/AMap3DMap_9.6.2_AMapLocation_6.3.0_20230424.jar')
-
 
     //Firebase
     implementation platform('com.google.firebase:firebase-bom:31.2.2')

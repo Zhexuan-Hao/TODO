@@ -24,8 +24,20 @@ public interface EventDao {
     @Query("select * from event_table where user_id = (:userId)")
     public LiveData<List<Event>> selectEventByUserId(String userId);
 
+    @Query("select * from event_table where user_id = (:userId) and status = 0")
+    public LiveData<List<Event>> selectUnfinishedEventByUserId(String userId);
+
+    @Query("select * from event_table where user_id = (:userId) and status = 1")
+    public LiveData<List<Event>> selectFinishedEventByUserId(String userId);
+
+    @Query("select count(*) from event_table where user_id = (:userId) and status = 0")
+    public Integer countUnfinishedEventByUserId(String userId);
+
+    @Query("select count(*) from event_table where user_id = (:userId) and status = 1")
+    public Integer countFinishedEventByUserId(String userId);
+
     @Update
-    public void updateEventById(Event event);
+    public void updateEvent(Event event);
 
     @Insert
     public void insertEvent(Event event);

@@ -2,6 +2,6 @@ package com.example.todo.Retrofit.Weather;
 
 public class Constant {
 
-    public static String BASE_URL = "https://api.openweathermap.org/data/3.0/onecall?";
-    public static String KEY = "925e37635d1f0d1350e9ba880668b79d";
+    public static String BASE_URL = "https://api.openweathermap.org/data/2.5/";
+    public static String KEY = "12b2817fbec86915a6e9b4dbbd3d9036";
 }

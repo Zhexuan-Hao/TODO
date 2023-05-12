@@ -1,41 +1,27 @@
 package com.example.todo.ui.dashboard;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.todo.MyAdapter;
 import com.example.todo.R;
 import com.example.todo.Room.Adapter.EventAdapter;
-import com.example.todo.Room.Dao.EventDao;
-import com.example.todo.Room.Database.EventDatabase;
 import com.example.todo.Room.Entity.Event;
 import com.example.todo.Room.ViewModel.EventViewModel;
 import com.example.todo.databinding.FragmentDashboardBinding;
-import com.example.todo.ui.add.AddFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DashboardFragment extends Fragment {
@@ -62,12 +48,14 @@ public class DashboardFragment extends Fragment {
 
         RecyclerView recyclerView = binding.recyclerView;
 
-        final EventAdapter adapter = new EventAdapter(new EventAdapter.EventDiff());
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
 
         // Get a new or existing ViewModel from the ViewModelProvider.
         eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
+
+        final EventAdapter adapter = new EventAdapter(new EventAdapter.EventDiff(), eventViewModel);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Add an observer on the LiveData returned by getAlphabetizedWords.
         // The onChanged() method fires when the observed data changes and the activity is
