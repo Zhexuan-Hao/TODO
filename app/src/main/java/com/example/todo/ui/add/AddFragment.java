@@ -42,6 +42,7 @@ public class AddFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
 
+        binding = FragmentAddBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final EventAdapter adapter = new EventAdapter(new EventAdapter.EventDiff());
