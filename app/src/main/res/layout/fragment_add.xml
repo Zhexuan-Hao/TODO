@@ -21,20 +21,40 @@
         android:layout_marginEnd="16dp"
         android:hint="Content" />
 
-    <CheckBox
-        android:id="@+id/completedCheckBox"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/locationTextView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/calendarView"
+        android:layout_below="@id/contentEditText"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:text="Completed" />
+        android:layout_marginEnd="16dp"
+        android:hint="Content" />
+
+    <Button
+        android:id="@+id/locateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/locationTextView"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Locate" />
+
+<!--    <CheckBox-->
+<!--        android:id="@+id/completedCheckBox"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/calendarView"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:text="Completed" />-->
 
     <Button
         android:id="@+id/saveButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/completedCheckBox"
+        android:layout_below="@id/calendarView"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -54,7 +74,7 @@
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/contentEditText"
+        android:layout_below="@id/locateButton"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp" />

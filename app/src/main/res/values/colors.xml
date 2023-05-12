@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="darkgrey"> #999999</color>
     <color name="red"> #FF0000</color>
+    <drawable name="transparent">#00000000</drawable>
+    <color name="transparent">#00000000</color>
 </resources>

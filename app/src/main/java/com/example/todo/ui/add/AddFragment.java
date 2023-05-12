@@ -5,30 +5,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CalendarView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
+import com.example.todo.R;
 import com.example.todo.Room.Adapter.EventAdapter;
+import com.example.todo.Room.Entity.Event;
 import com.example.todo.Room.ViewModel.EventViewModel;
 import com.example.todo.databinding.FragmentAddBinding;
-import com.example.todo.databinding.FragmentHomeBinding;
-import com.example.todo.databinding.FragmentMineBinding;
-import com.example.todo.ui.home.HomeViewModel;
+import com.example.todo.ui.map.LocationActivity;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Calendar;
 
 public class AddFragment extends Fragment {
 
@@ -38,6 +32,10 @@ public class AddFragment extends Fragment {
 
     private FirebaseUser user;
 
+    private Event event;
+
+    private TextView locationTextView;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -46,24 +44,48 @@ public class AddFragment extends Fragment {
         View root = binding.getRoot();
 
         final EventAdapter adapter = new EventAdapter(new EventAdapter.EventDiff());
+        event = new Event();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        locationTextView = binding.locationTextView;
 
         // Get a new or existing ViewModel from the ViewModelProvider.
         eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
 
-        // Add an observer on the LiveData returned by getAlphabetizedWords.
-        // The onChanged() method fires when the observed data changes and the activity is
-        // in the foreground.
-        eventViewModel.getEvents().observe(getViewLifecycleOwner(), events -> {
-            // Update the cached copy of the words in the adapter.
-            adapter.submitList(events);
+        binding.locateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LocationActivity.class);
+                intent.putExtra("event", event);
+                startActivity(intent);
+            }
         });
 
         binding.saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                event.setTitle(binding.titleEditText.getText().toString());
+                event.setContent(binding.contentEditText.getText().toString());
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(binding.calendarView.getDate());
+                event.setDate(calendar.getTime());
+                event.setUser_id(user.getUid());
+                event.setStatus(0);
+                eventViewModel.insert(event);
 
+                NavController navController = Navigation.findNavController(root);
+                navController.navigate(R.id.action_nav_add_to_nav_dashboard);
             }
         });
+
+        binding.cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavController navController = Navigation.findNavController(root);
+                navController.navigate(R.id.action_nav_add_to_nav_dashboard);
+            }
+        });
+
+
 
         return root;
     }

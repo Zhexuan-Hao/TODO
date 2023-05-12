@@ -90,17 +90,9 @@ public class DashboardFragment extends Fragment {
 //            }
 //        });
 
-        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_navigation_drawer);
-
-
-        FloatingActionButton addBtn = binding.iconFunctionAdd;
-        addBtn.setOnClickListener(view -> {
-//            getActivity().getSupportFragmentManager()
-//                    .beginTransaction()
-//                    .replace(R.id.nav_host_fragment_content_navigation_drawer, new AddFragment(), null)
-//                    .addToBackStack(null)
-//                    .commit();
-            navController.navigate(R.id.action_nav_dashboard_to_nav_add); // 导航到目标Fragment
+        binding.iconFunctionAdd.setOnClickListener(view -> {
+            NavController navController = Navigation.findNavController(root);
+            navController.navigate(R.id.action_nav_dashboard_to_nav_add);
         });
 
         return root;

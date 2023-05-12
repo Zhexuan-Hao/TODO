@@ -11,10 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.todo.NavigationDrawerActivity;
 import com.example.todo.databinding.ActivityLoginBinding;
-import com.example.todo.ui.map.LocationActivity;
-import com.example.todo.ui.map.MapActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
