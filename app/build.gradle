@@ -46,7 +46,7 @@ dependencies {
 //    implementation files('libs/Amap_2DMap_V6.0.0_20191106.jar')
 //    implementation files('libs/AMap_Location_V6.3.0_20230410.jar')
 //    implementation files('libs/AMap_Search_V9.4.0_20220808.jar')
-    implementation files('libs/AMap3DMap_9.6.2_AMapLocation_6.3.0_20230424.jar')
+//    implementation files('libs/AMap3DMap_9.6.2_AMapLocation_6.3.0_20230424.jar')
 
 
     //Firebase
@@ -55,6 +55,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.firebaseui:firebase-ui-database:8.0.1'
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     //CHART
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
