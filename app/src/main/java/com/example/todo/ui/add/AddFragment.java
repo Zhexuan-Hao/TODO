@@ -6,33 +6,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkInfo;
-import androidx.work.WorkManager;
-import androidx.work.WorkRequest;
 
 import com.example.todo.R;
-import com.example.todo.Room.Adapter.EventAdapter;
 import com.example.todo.Room.Entity.Event;
 import com.example.todo.Room.ViewModel.EventViewModel;
-import com.example.todo.WorkManager.MyWorker;
 import com.example.todo.databinding.FragmentAddBinding;
-import com.example.todo.ui.detail.DetailFragmentArgs;
 import com.example.todo.ui.map.LocationActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.annotations.Nullable;
 
-import java.util.Calendar;
 import java.util.Date;
 
 public class AddFragment extends Fragment {
@@ -103,11 +91,9 @@ public class AddFragment extends Fragment {
             }
         });
 
-        WorkRequest request = new OneTimeWorkRequest.Builder(MyWorker.class).build();
         binding.AddSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WorkManager.getInstance().enqueue(request);
                 event.setTitle(binding.AddTitleEdt.getText().toString());
                 event.setContent(binding.AddContentEdt.getText().toString());
                 event.setAddress(binding.AddLocationEdt.getText().toString());
@@ -131,13 +117,6 @@ public class AddFragment extends Fragment {
                 navController.navigate(R.id.action_nav_add_to_nav_dashboard);
             }
         });
-        WorkManager.getInstance().getWorkInfoByIdLiveData(request.getId())
-                .observe((LifecycleOwner) getActivity(), new Observer<WorkInfo>() {
-                    @Override
-                    public void onChanged(@Nullable WorkInfo workInfo) {
-                        String state = workInfo.getState().name();
-                    }
-                });
 
         binding.AddCancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override

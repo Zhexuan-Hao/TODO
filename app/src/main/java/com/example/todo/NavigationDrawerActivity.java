@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.Menu;
 
 import com.example.todo.Room.Entity.Event;
+import com.example.todo.WorkManager.MyWorker;
 import com.example.todo.ui.add.AddFragment;
 import com.example.todo.ui.dashboard.DashboardFragmentDirections;
 import com.google.android.material.snackbar.Snackbar;
@@ -17,8 +18,13 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.example.todo.databinding.ActivityNavigationDrawerBinding;
+
+import java.util.concurrent.TimeUnit;
 
 public class NavigationDrawerActivity extends AppCompatActivity {
 
@@ -58,6 +64,11 @@ public class NavigationDrawerActivity extends AppCompatActivity {
             NavDirections action = DashboardFragmentDirections.actionNavDashboardToNavAdd(event);
             navController.navigate(action);
         }
+
+        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(MyWorker.class, 15, TimeUnit.MINUTES)
+                .build();
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork("UploadEvents", ExistingPeriodicWorkPolicy.REPLACE, periodicWorkRequest);
     }
 
     @Override
