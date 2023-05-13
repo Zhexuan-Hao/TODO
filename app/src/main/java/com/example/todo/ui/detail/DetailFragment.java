@@ -48,7 +48,15 @@ public class DetailFragment extends Fragment {
             binding.DetailContentEdt.setText(event.getContent());
             binding.DetailCalendarView.setDate(event.getDate().getTime());
             binding.DetailIsfinishCb.setChecked(event.getStatus() == 1);
+            binding.DetailLocationEdt.setText(event.getAddress());
         }
+
+        binding.DetailLocationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
 
         binding.DetailSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override

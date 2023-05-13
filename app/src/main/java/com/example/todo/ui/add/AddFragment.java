@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class AddFragment extends Fragment {
 
@@ -35,7 +37,6 @@ public class AddFragment extends Fragment {
 
     private Event event;
 
-    private TextView locationTextView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -44,20 +45,18 @@ public class AddFragment extends Fragment {
         binding = FragmentAddBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final EventAdapter adapter = new EventAdapter(new EventAdapter.EventDiff());
         user = FirebaseAuth.getInstance().getCurrentUser();
-        locationTextView = binding.locationTextView;
-
-        // Get a new or existing ViewModel from the ViewModelProvider.
         eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
 
         if(getArguments() != null) {
             AddFragmentArgs addFragmentArgs = AddFragmentArgs.fromBundle(getArguments());
             if (addFragmentArgs.getEvent() != null) {
                 event = addFragmentArgs.getEvent();
-                binding.titleEditText.setText(event.getTitle());
-                binding.contentEditText.setText(event.getContent());
-                binding.locationTextView.setText(event.getAddress());
+                binding.AddTitleEdt.setText(event.getTitle());
+                binding.AddContentEdt.setText(event.getContent());
+                binding.AddLocationEdt.setText(event.getAddress());
+                binding.AddIsfinishCb.setChecked(event.getStatus() == 1);
+                binding.AddCalendarView.setDate(event.getDate().getTime());
             } else {
                 event = new Event();
             }
@@ -65,38 +64,59 @@ public class AddFragment extends Fragment {
             event = new Event();
         }
 
-        binding.locateButton.setOnClickListener(new View.OnClickListener() {
+        if (event.getUser_id() != null) {
+            binding.AddIsfinishCb.setVisibility(View.VISIBLE);
+        } else {
+            binding.AddIsfinishCb.setVisibility(View.GONE);
+        }
+
+        binding.AddCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                Date date = new Date();
+                date.setYear(year);
+                date.setMonth(month);
+                date.setDate(dayOfMonth);
+                event.setDate(date);
+            }
+        });
+
+        binding.AddLocationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                event.setTitle(binding.titleEditText.getText().toString());
-                event.setContent(binding.contentEditText.getText().toString());
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(binding.calendarView.getDate());
-                event.setDate(calendar.getTime());
+                event.setTitle(binding.AddTitleEdt.getText().toString());
+                event.setContent(binding.AddContentEdt.getText().toString());
                 Intent intent = new Intent(getActivity(), LocationActivity.class);
                 intent.putExtra("event", event);
                 startActivity(intent);
             }
         });
 
-        binding.saveButton.setOnClickListener(new View.OnClickListener() {
+        binding.AddSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                event.setTitle(binding.titleEditText.getText().toString());
-                event.setContent(binding.contentEditText.getText().toString());
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(binding.calendarView.getDate());
-                event.setDate(calendar.getTime());
-                event.setUser_id(user.getUid());
-                event.setStatus(0);
-                eventViewModel.insert(event);
+                event.setTitle(binding.AddTitleEdt.getText().toString());
+                event.setContent(binding.AddContentEdt.getText().toString());
+                event.setAddress(binding.AddLocationEdt.getText().toString());
+                if(event.getUser_id() == null) {
+                    event.setUser_id(user.getUid());
+                    event.setStatus(0);
+                    eventViewModel.insert(event);
+                } else {
+                    if (binding.AddIsfinishCb.isChecked()) {
+                        event.setStatus(1);
+                    } else {
+                        event.setStatus(0);
+                    }
+                    eventViewModel.update(event);
+                }
 
                 NavController navController = Navigation.findNavController(root);
                 navController.navigate(R.id.action_nav_add_to_nav_dashboard);
             }
         });
 
-        binding.cancelButton.setOnClickListener(new View.OnClickListener() {
+        binding.AddCancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 NavController navController = Navigation.findNavController(root);

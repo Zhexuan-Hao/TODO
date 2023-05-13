@@ -106,7 +106,7 @@ public class EventAdapter extends ListAdapter<Event, EventAdapter.EventViewHolde
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavDirections action = DashboardFragmentDirections.actionNavDashboardToNavDetail(event);
+                NavDirections action = DashboardFragmentDirections.actionNavDashboardToNavAdd(event);
                 NavController navController = Navigation.findNavController(holder.itemView);
                 navController.navigate(action);
             }

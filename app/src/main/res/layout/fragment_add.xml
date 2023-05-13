@@ -3,7 +3,7 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/titleEditText"
+        android:id="@+id/Add_Title_Edt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -12,62 +12,72 @@
         android:hint="Title" />
 
     <EditText
-        android:id="@+id/contentEditText"
+        android:id="@+id/Add_Content_Edt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/titleEditText"
+        android:layout_below="@id/Add_Title_Edt"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:hint="Content" />
 
     <TextView
-        android:id="@+id/locationTextView"
+        android:id="@+id/Add_Location_Edt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/contentEditText"
+        android:layout_below="@id/Add_Content_Edt"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:hint="Content" />
 
     <Button
-        android:id="@+id/locateButton"
+        android:id="@+id/Add_Location_Btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/locationTextView"
+        android:layout_below="@id/Add_Location_Edt"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:text="Locate" />
 
-    <Button
-        android:id="@+id/saveButton"
+    <CalendarView
+        android:id="@+id/Add_calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/calendarView"
+        android:layout_below="@id/Add_Location_Btn"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <CheckBox
+        android:id="@+id/Add_Isfinish_Cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Add_calendarView"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:visibility="gone"
+        android:text="Finished" />
+
+    <Button
+        android:id="@+id/Add_Save_Btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Add_Isfinish_Cb"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:text="Save" />
 
     <Button
-        android:id="@+id/cancelButton"
+        android:id="@+id/Add_Cancel_Btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/saveButton"
+        android:layout_below="@id/Add_Save_Btn"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:text="Cancel" />
-
-    <CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/locateButton"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" />
 
 </RelativeLayout>
