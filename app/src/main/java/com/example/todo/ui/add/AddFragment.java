@@ -56,7 +56,9 @@ public class AddFragment extends Fragment {
                 binding.AddContentEdt.setText(event.getContent());
                 binding.AddLocationEdt.setText(event.getAddress());
                 binding.AddIsfinishCb.setChecked(event.getStatus() == 1);
-                binding.AddCalendarView.setDate(event.getDate().getTime());
+                if(event.getDate() != null) {
+                    binding.AddCalendarView.setDate(event.getDate().getTime());
+                }
             } else {
                 event = new Event();
             }
