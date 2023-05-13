@@ -25,12 +25,14 @@ public class Event implements Serializable {
     private Date date;
     private Double longitude; //经度
     private Double latitude; //纬度
+
+    private String address;
     private int status; //0 unfinished 1 finished
 
     public Event() {}
 
     @Ignore
-    public Event(int event_id, String user_id, String title, String content, Date date, Double longitude, Double latitude, int status) {
+    public Event(int event_id, String user_id, String title, String content, Date date, Double longitude, Double latitude, String address, int status) {
         this.event_id = event_id;
         this.user_id = user_id;
         this.title = title;
@@ -38,6 +40,7 @@ public class Event implements Serializable {
         this.date = date;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.address = address;
         this.status = status;
     }
 
@@ -97,11 +100,34 @@ public class Event implements Serializable {
         this.latitude = latitude;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public int getStatus() {
         return status;
     }
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "event_id=" + event_id +
+                ", user_id='" + user_id + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", date=" + date +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", address='" + address + '\'' +
+                ", status=" + status +
+                '}';
     }
 }

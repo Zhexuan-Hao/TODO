@@ -25,6 +25,7 @@ import android.widget.Toast;
 //import com.amap.api.maps.model.MyLocationStyle;
 import com.example.todo.NavigationDrawerActivity;
 import com.example.todo.R;
+import com.example.todo.Room.Entity.Event;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -40,10 +41,14 @@ public class LocationActivity extends AppCompatActivity {
     private String lat="";//纬度
     private String lng="";//经度
     private Uri uri;
+
+    private Event event;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
+
+        event = (Event) getIntent().getSerializableExtra("event");
 
         mWebView=findViewById(R.id.web_map);
         btn_map=findViewById(R.id.choose_button);
@@ -97,10 +102,14 @@ public class LocationActivity extends AppCompatActivity {
                 System.out.println("信息："+uri.toString());
                 Intent intent = new Intent(LocationActivity.this, NavigationDrawerActivity.class);
                 intent.putExtra("id",1);
+                event.setAddress(address);
+                event.setLatitude(Double.valueOf(lat));
+                event.setLongitude(Double.valueOf(lng));
                 intent.putExtra("city", rcity);
-                intent.putExtra("address", address);
-                intent.putExtra("lat", lat);
-                intent.putExtra("lng", lng);
+//                intent.putExtra("address", address);
+//                intent.putExtra("lat", lat);
+//                intent.putExtra("lng", lng);
+                intent.putExtra("event", event);
 
                 startActivity(intent);
                 //intent.putExtra("city", rcity);

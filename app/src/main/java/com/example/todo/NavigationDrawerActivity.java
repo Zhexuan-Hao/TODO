@@ -4,10 +4,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 
+import com.example.todo.Room.Entity.Event;
+import com.example.todo.ui.add.AddFragment;
+import com.example.todo.ui.dashboard.DashboardFragmentDirections;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -47,6 +51,13 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation_drawer);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        int id = getIntent().getIntExtra("id", 0);
+        if (id == 1) {
+            Event event = (Event) getIntent().getSerializableExtra("event");
+            NavDirections action = DashboardFragmentDirections.actionNavDashboardToNavAdd(event);
+            navController.navigate(action);
+        }
     }
 
     @Override

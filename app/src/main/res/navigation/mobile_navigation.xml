@@ -30,7 +30,11 @@
         tools:layout="@layout/fragment_dashboard" >
         <action
             android:id="@+id/action_nav_dashboard_to_nav_add"
-            app:destination="@id/nav_add" />
+            app:destination="@id/nav_add">
+            <argument
+                android:name="event"
+                app:argType="com.example.todo.Room.Entity.Event" />
+        </action>
         <action
             android:id="@+id/action_nav_dashboard_to_nav_detail"
             app:destination="@id/nav_detail">
@@ -45,6 +49,11 @@
         android:name="com.example.todo.ui.add.AddFragment"
         android:label="@string/menu_add"
         tools:layout="@layout/fragment_add" >
+        <argument
+            android:name="event"
+            app:argType="com.example.todo.Room.Entity.Event"
+            android:defaultValue="@null"
+            app:nullable="true"/>
         <action
             android:id="@+id/action_nav_add_to_nav_dashboard"
             app:destination="@id/nav_dashboard" />

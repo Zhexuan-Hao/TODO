@@ -18,6 +18,7 @@ import com.example.todo.Room.Adapter.EventAdapter;
 import com.example.todo.Room.Entity.Event;
 import com.example.todo.Room.ViewModel.EventViewModel;
 import com.example.todo.databinding.FragmentAddBinding;
+import com.example.todo.ui.detail.DetailFragmentArgs;
 import com.example.todo.ui.map.LocationActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,16 +45,34 @@ public class AddFragment extends Fragment {
         View root = binding.getRoot();
 
         final EventAdapter adapter = new EventAdapter(new EventAdapter.EventDiff());
-        event = new Event();
         user = FirebaseAuth.getInstance().getCurrentUser();
         locationTextView = binding.locationTextView;
 
         // Get a new or existing ViewModel from the ViewModelProvider.
         eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
 
+        if(getArguments() != null) {
+            AddFragmentArgs addFragmentArgs = AddFragmentArgs.fromBundle(getArguments());
+            if (addFragmentArgs.getEvent() != null) {
+                event = addFragmentArgs.getEvent();
+                binding.titleEditText.setText(event.getTitle());
+                binding.contentEditText.setText(event.getContent());
+                binding.locationTextView.setText(event.getAddress());
+            } else {
+                event = new Event();
+            }
+        } else {
+            event = new Event();
+        }
+
         binding.locateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                event.setTitle(binding.titleEditText.getText().toString());
+                event.setContent(binding.contentEditText.getText().toString());
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(binding.calendarView.getDate());
+                event.setDate(calendar.getTime());
                 Intent intent = new Intent(getActivity(), LocationActivity.class);
                 intent.putExtra("event", event);
                 startActivity(intent);
