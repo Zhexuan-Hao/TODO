@@ -45,16 +45,6 @@ public abstract class EventDatabase extends RoomDatabase {
                                         // Populate the database in the background.
                                         // If you want to start with more words, just add them.
                                         EventDao dao = INSTANCE.eventDao();
-                                        dao.deleteAllEvents();
-
-                                        Date date = new Date();
-                                        Event event = new Event();
-                                        event.setTitle("test");
-                                        event.setStatus(0);
-                                        event.setContent("123456");
-                                        event.setUser_id("lIvgkGKSvePj3pmEH7BZr4fI6vm2");
-                                        event.setDate(date);
-                                        dao.insertEvent(event);
 
                                     });
                                 }
@@ -76,15 +66,15 @@ public abstract class EventDatabase extends RoomDatabase {
             databaseWriteExecutor.execute(() -> {
                 // Populate the database in the background.
                 // If you want to start with more words, just add them.
-                EventDao dao = INSTANCE.eventDao();
-                dao.deleteAllEvents();
-
-                Event event = new Event();
-                event.setTitle("test");
-                event.setStatus(0);
-                event.setContent("123456");
-                event.setUser_id("lIvgkGKSvePj3pmEH7BZr4fI6vm2");
-                dao.insertEvent(event);
+//                EventDao dao = INSTANCE.eventDao();
+//                dao.deleteAllEvents();
+//
+//                Event event = new Event();
+//                event.setTitle("test");
+//                event.setStatus(0);
+//                event.setContent("123456");
+//                event.setUser_id("lIvgkGKSvePj3pmEH7BZr4fI6vm2");
+//                dao.insertEvent(event);
 
             });
         }

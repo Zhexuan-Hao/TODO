@@ -15,46 +15,50 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.todo.R;
+import com.example.todo.RealtimeDatabase.EventService;
+import com.example.todo.Room.Entity.Event;
 import com.example.todo.Room.Entity.User;
+import com.example.todo.Room.ViewModel.EventViewModel;
 import com.example.todo.WelcomeActivity;
 import com.example.todo.databinding.FragmentMineBinding;
 import com.example.todo.databinding.FragmentSlideshowBinding;
 import com.example.todo.ui.slideshow.SlideshowViewModel;
 
-//import com.github.mikephil.charting.charts.PieChart;
-//import com.github.mikephil.charting.data.PieData;
-//import com.github.mikephil.charting.data.PieDataSet;
-//import com.github.mikephil.charting.data.PieEntry;
-//import com.github.mikephil.charting.formatter.PercentFormatter;
-//import com.github.mikephil.charting.components.Description;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
-//import com.github.mikephil.charting.charts.BarChart;
 
 
 public class MineFragment extends Fragment {
 
-    EditText Email, Nickname;
-    Button Statistic, Logout;
-    FirebaseUser user;
+    private EditText Email, Nickname;
+    private FirebaseUser user;
+    private EventViewModel eventViewModel;
+    private LiveData<List<Event>> eventList;
+    private List<Event> localEvents;
 
     private FragmentMineBinding binding;
 
+    private EventService eventService = new EventService();
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -64,14 +68,79 @@ public class MineFragment extends Fragment {
         binding = FragmentMineBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        user = FirebaseAuth.getInstance().getCurrentUser();
-
         Email = binding.MineEmailEdt;
         Nickname = binding.MineNicknameEdt;
 
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
         Nickname.setText(user.getDisplayName());
         Email.setText(user.getEmail());
+        eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
 
+        eventList = eventViewModel.getEvents();
+        eventViewModel.getEvents().observe(getViewLifecycleOwner(), new Observer<List<Event>>() {
+            @Override
+            public void onChanged(List<Event> events) {
+                localEvents = events;
+            }
+        });
+
+        binding.MineUploadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eventService.deleteAll(user.getUid());
+                for (Event event : localEvents) {
+                    eventService.insertEvent(event, user.getUid());
+                }
+            }
+        });
+
+        binding.MineDownloadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eventViewModel.deleteAll(user.getUid());
+                databaseReference.child("event").child(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Log.e("firebase", "Error getting data", task.getException());
+                        }
+                        else {
+                            Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                            List<HashMap> value = (List<HashMap>) task.getResult().getValue();
+                            for (HashMap o : value) {
+                                if(o != null) {
+                                    Event event = new Event();
+                                    if(o.get("address") != null) {
+                                        event.setAddress((String)o.get("address"));
+                                    }
+                                    if(o.get("date") != null) {
+                                        Date date = new Date((Long)(((HashMap)o.get("date")).get("time")));
+                                        event.setDate(date);
+                                    }
+                                    if(o.get("title") != null) {
+                                        event.setTitle((String)o.get("title"));
+                                    }
+                                    if(o.get("status") != null) {
+                                        event.setStatus(((Long)o.get("status")).intValue());
+                                    }
+                                    if(o.get("event_id") != null) {
+                                        event.setEvent_id(((Long)o.get("event_id")).intValue());
+                                    }
+                                    if(o.get("content") != null) {
+                                        event.setContent((String)o.get("content"));
+                                    }
+                                    if(o.get("user_id") != null) {
+                                        event.setUser_id((String)o.get("user_id"));
+                                    }
+                                    eventViewModel.insert(event);
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
 
         binding.MineStatisticBtn.setOnClickListener(new View.OnClickListener() {
             @Override

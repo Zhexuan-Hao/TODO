@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.todo.RealtimeDatabase.EventService;
 import com.example.todo.Room.Entity.Event;
 import com.example.todo.Room.ViewModel.EventViewModel;
 import com.example.todo.databinding.FragmentStatisticBinding;
@@ -67,8 +68,11 @@ public class StatisticFragment extends Fragment {
             public void onChanged(List<Event> events) {
                 setUpBarChart();
                 setUpPieChart();
+
             }
         });
+
+
 
 
 //        usersRef.addValueEventListener(new ValueEventListener() {

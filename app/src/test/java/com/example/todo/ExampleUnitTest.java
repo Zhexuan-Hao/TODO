@@ -22,15 +22,5 @@ public class ExampleUnitTest {
 
     @Test
     public void realtimedatabase() {
-        Event event = new Event();
-        event.setUser_id("123456");
-        event.setEvent_id(0);
-        event.setTitle("test");
-        event.setContent("testtest");
-        event.setDate(new Date());
-        event.setStatus(0);
-
-        EventService service = new EventService();
-        service.insertEvent(event);
     }
 }

@@ -48,6 +48,6 @@ public interface EventDao {
     @Delete
     public void deleteEvent(Event event);
 
-    @Query("delete from event_table")
-    public void deleteAllEvents();
+    @Query("delete from event_table where user_id = (:userId)")
+    public void deleteAllEvents(String userId);
 }
