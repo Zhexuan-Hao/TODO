@@ -9,17 +9,24 @@ import android.widget.CalendarView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
 
 import com.example.todo.R;
 import com.example.todo.Room.Entity.Event;
 import com.example.todo.Room.ViewModel.EventViewModel;
+import com.example.todo.WorkManager.MyWorker;
 import com.example.todo.databinding.FragmentAddBinding;
 import com.example.todo.ui.map.LocationActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.annotations.Nullable;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -95,6 +102,15 @@ public class AddFragment extends Fragment {
         binding.AddSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(MyWorker.class).build();
+                WorkManager.getInstance().enqueue(request);
+                WorkManager.getInstance().getWorkInfoByIdLiveData(request.getId())
+                        .observe((LifecycleOwner) getActivity(), new Observer<WorkInfo>() {
+                            @Override
+                            public void onChanged(@Nullable WorkInfo workInfo) {
+                                String state = workInfo.getState().name();
+                            }
+                        });
                 event.setTitle(binding.AddTitleEdt.getText().toString());
                 event.setContent(binding.AddContentEdt.getText().toString());
                 event.setAddress(binding.AddLocationEdt.getText().toString());
@@ -126,8 +142,6 @@ public class AddFragment extends Fragment {
                 navController.navigate(R.id.action_nav_add_to_nav_dashboard);
             }
         });
-
-
 
         return root;
     }

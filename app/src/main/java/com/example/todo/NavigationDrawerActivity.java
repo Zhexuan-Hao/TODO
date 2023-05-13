@@ -11,6 +11,9 @@ import com.example.todo.ui.dashboard.DashboardFragmentDirections;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
@@ -20,6 +23,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import com.example.todo.databinding.ActivityNavigationDrawerBinding;
@@ -65,10 +69,20 @@ public class NavigationDrawerActivity extends AppCompatActivity {
             navController.navigate(action);
         }
 
-        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(MyWorker.class, 15, TimeUnit.MINUTES)
-                .build();
+        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(
+                MyWorker.class, // 指定工作类
+                1, // 重复时间间隔，单位为小时
+                TimeUnit.HOURS // 时间间隔的时间单位
+        ).build();
+        WorkManager.getInstance().enqueue(periodicWorkRequest);
+        WorkManager.getInstance().getWorkInfoByIdLiveData(periodicWorkRequest.getId())
+                .observe((LifecycleOwner) NavigationDrawerActivity.this, new Observer<WorkInfo>() {
+                    @Override
+                    public void onChanged(@Nullable WorkInfo workInfo) {
+                        String state = workInfo.getState().name();
+                    }
+                });
 
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork("UploadEvents", ExistingPeriodicWorkPolicy.REPLACE, periodicWorkRequest);
     }
 
     @Override

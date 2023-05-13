@@ -1,6 +1,12 @@
 package com.example.todo.ui.statistic;
 
+import static android.content.Context.SENSOR_SERVICE;
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.content.Context;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.example.todo.RealtimeDatabase.EventService;
 import com.example.todo.Room.Entity.Event;
@@ -47,6 +54,7 @@ import java.util.List;
 
 public class StatisticFragment extends Fragment {
 
+
     private FragmentStatisticBinding binding;
 
     private FirebaseUser user;
@@ -71,28 +79,6 @@ public class StatisticFragment extends Fragment {
 
             }
         });
-
-
-
-
-//        usersRef.addValueEventListener(new ValueEventListener() {
-//
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//
-//                // Call the setUpPieChart() method to set up and populate the chart.
-//                setUpPieChart(snapshot);
-//
-//                // Call the setUpBarChart() method to set up and populate the chart.
-//                setUpBarChart(snapshot);
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                // 当监听器被取消时，执行该方法
-//            }
-//        });
 
         return root;
     }
