@@ -40,6 +40,10 @@ android {
 
 dependencies {
 
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.tencent.map:tencent-map-vector-sdk:4.3.4'
+    implementation 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.4.9'
+
     implementation 'com.google.firebase:firebase-common-ktx:20.3.2'
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
