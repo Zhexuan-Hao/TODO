@@ -36,6 +36,9 @@ public interface EventDao {
     @Query("select count(*) from event_table where user_id = (:userId) and status = 1")
     public Integer countFinishedEventByUserId(String userId);
 
+    @Query("select * from event_table where user_id = (:userId) and date BETWEEN (:oneWeekAgoInt) AND (:todayInt)")
+    public List<Event> selectOneWeekEventsByUserId(String userId, Integer oneWeekAgoInt, Integer todayInt);
+
     @Update
     public void updateEvent(Event event);
 

@@ -83,10 +83,11 @@ public class AddFragment extends Fragment {
         binding.AddCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                Date date = new Date();
-                date.setYear(year);
-                date.setMonth(month);
-                date.setDate(dayOfMonth);
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, year); // year是int类型的年份
+                calendar.set(Calendar.MONTH, month); // month是int类型的月份，需要减一
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth); // dayOfMonth是int类型的日期
+                Date date = calendar.getTime();
                 event.setDate(date);
             }
         });
@@ -110,6 +111,9 @@ public class AddFragment extends Fragment {
                 event.setTitle(binding.AddTitleEdt.getText().toString());
                 event.setContent(binding.AddContentEdt.getText().toString());
                 event.setAddress(binding.AddLocationEdt.getText().toString());
+                if(event.getDate() == null) {
+                    event.setDate(new Date());
+                }
                 if(event.getUser_id() == null) {
                     event.setUser_id(user.getUid());
                     event.setStatus(0);

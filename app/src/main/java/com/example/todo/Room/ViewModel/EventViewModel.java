@@ -17,12 +17,10 @@ public class EventViewModel extends AndroidViewModel {
     private EventRepository eventRepository;
     private final LiveData<List<Event>> eventList;
 
-    private FirebaseUser user;
 
     public EventViewModel(Application application) {
         super(application);
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        eventRepository = new EventRepository(application, user.getUid());
+        eventRepository = new EventRepository(application);
         eventList = eventRepository.getEvents();
         List<Event> value = eventList.getValue();
         System.out.println(1);
@@ -40,4 +38,5 @@ public class EventViewModel extends AndroidViewModel {
     public void delete(Event event) {
         eventRepository.delete(event);
     }
+
 }

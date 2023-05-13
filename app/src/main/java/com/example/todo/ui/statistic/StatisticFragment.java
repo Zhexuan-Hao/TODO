@@ -5,11 +5,16 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.todo.Room.Entity.Event;
+import com.example.todo.Room.ViewModel.EventViewModel;
 import com.example.todo.databinding.FragmentStatisticBinding;
 import com.example.todo.ui.home.HomeViewModel;
 import com.github.mikephil.charting.components.XAxis;
@@ -24,12 +29,15 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -40,8 +48,51 @@ public class StatisticFragment extends Fragment {
 
     private FragmentStatisticBinding binding;
 
+    private FirebaseUser user;
+    private EventViewModel eventViewModel;
+    private LiveData<List<Event>> eventList;
 
-    private void setUpBarChart(@NonNull DataSnapshot snapshot) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+
+        binding = FragmentStatisticBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
+
+        eventList = eventViewModel.getEvents();
+        eventViewModel.getEvents().observe(getViewLifecycleOwner(), new Observer<List<Event>>() {
+            @Override
+            public void onChanged(List<Event> events) {
+                setUpBarChart();
+                setUpPieChart();
+            }
+        });
+
+
+//        usersRef.addValueEventListener(new ValueEventListener() {
+//
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//                // Call the setUpPieChart() method to set up and populate the chart.
+//                setUpPieChart(snapshot);
+//
+//                // Call the setUpBarChart() method to set up and populate the chart.
+//                setUpBarChart(snapshot);
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                // 当监听器被取消时，执行该方法
+//            }
+//        });
+
+        return root;
+    }
+    private void setUpBarChart() {
 
         // Get a reference to the BarChart view in the XML layout.
 
@@ -50,7 +101,9 @@ public class StatisticFragment extends Fragment {
 
         // 获取当前日期
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
 
         // 存储过去一周日期的列表
         List<String> dates = new ArrayList<>();
@@ -73,7 +126,7 @@ public class StatisticFragment extends Fragment {
             // 将calendar对象回退一天，得到前一天的日期
             calendar.add(Calendar.DAY_OF_YEAR, -1);
             Date date = calendar.getTime();
-            String dateString = date.toString();
+            String dateString = dateFormat.format(date);
             dates.add(dateString);
             // 将数字转换为对应的星期名称
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
@@ -81,19 +134,18 @@ public class StatisticFragment extends Fragment {
             week.add(day);
         }
 
-        //读取对应日期的finished和unfinished
-        for(DataSnapshot data : snapshot.getChildren()){
-            // 获取最新的数据
-            String tagDate = data.child("date").getValue().toString();
-            String tagStatus = data.child("status").getValue().toString();;
+
+        for (Event event : eventList.getValue()) {
+            String tagDate = dateFormat.format(event.getDate());
+            String tagStatus = Integer.toString(event.getStatus());
             for(int i = 0; i < 7; i++){
                 if(tagDate.equals(dates.get(i)) ){
                     //Finished
-                    if(tagStatus.equals("0")){
+                    if(tagStatus.equals("1")){
                         finished[i]++;
                     }
                     //Unfinished!
-                    else if(tagStatus.equals("1")){
+                    else if(tagStatus.equals("0")){
                         unfinished[i]++;
                     }
 
@@ -103,11 +155,12 @@ public class StatisticFragment extends Fragment {
 
             }
         }
+        //读取对应日期的finished和unfinished
 
 
         // Customize the horizontal axis.
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
-        List<String> xAxisValues = new ArrayList<>(dates);
+        List<String> xAxisValues = new ArrayList<>(week);
         XAxis xAxis = binding.barChart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(xAxisValues));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -147,18 +200,20 @@ public class StatisticFragment extends Fragment {
         binding.barChart.invalidate();
     }
 
-    private void setUpPieChart(@NonNull DataSnapshot snapshot) {
+    private void setUpPieChart() {
 
         int Finished = 0;
         int Unfinished = 0;
 
-        for(DataSnapshot data : snapshot.getChildren()){
+
+
+        for(Event event : eventList.getValue()){
             // 获取最新的数据
-            String tag = data.child("status").getValue().toString();
-            if(tag.equals("Finished!")){
+            String tag = Integer.toString(event.getStatus());
+            if(tag.equals("1")){
                 Finished++;
-                System.out.println(tag);
-            } else if(tag.equals("Unfinished!")){
+//                System.out.println(tag);
+            } else if(tag.equals("0")){
                 Unfinished++;
             }
         }
@@ -193,44 +248,6 @@ public class StatisticFragment extends Fragment {
         //数据描述文本大小
         binding.pieChart.setEntryLabelTextSize(20);
 
-    }
-
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
-
-        binding = FragmentStatisticBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        // pieChart
-        // 获取 Firebase 实例
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        // 获取根引用
-        DatabaseReference rootRef = database.getReference();
-        // 在根引用上添加路径，获取指向特定节点的引用
-        DatabaseReference usersRef = rootRef.child("Event");
-        usersRef.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                // Call the setUpPieChart() method to set up and populate the chart.
-                setUpPieChart(snapshot);
-
-                // Call the setUpBarChart() method to set up and populate the chart.
-                setUpBarChart(snapshot);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // 当监听器被取消时，执行该方法
-            }
-        });
-
-        return root;
     }
 
 
