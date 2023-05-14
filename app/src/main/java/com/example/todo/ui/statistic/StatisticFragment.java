@@ -24,7 +24,6 @@ import com.example.todo.RealtimeDatabase.EventService;
 import com.example.todo.Room.Entity.Event;
 import com.example.todo.Room.ViewModel.EventViewModel;
 import com.example.todo.databinding.FragmentStatisticBinding;
-import com.example.todo.ui.home.HomeViewModel;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
