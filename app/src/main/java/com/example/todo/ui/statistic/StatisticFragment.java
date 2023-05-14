@@ -87,11 +87,12 @@ public class StatisticFragment extends Fragment {
         // Get a reference to the BarChart view in the XML layout.
 
         // Create data entries for the chart.
-        ArrayList<BarEntry> entries = new ArrayList<>();
+//        ArrayList<BarEntry> entries = new ArrayList<>();
+        ArrayList<BarEntry> finishedEntries = new ArrayList<>();
+        ArrayList<BarEntry> unfinishedEntries = new ArrayList<>();
 
         // 获取当前日期
         Calendar calendar = Calendar.getInstance();
-
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 
@@ -140,12 +141,14 @@ public class StatisticFragment extends Fragment {
                     }
 
                 }
-                entries.add(new BarEntry(i,finished[i]));
-                entries.add(new BarEntry(i+1,unfinished[i]));
 
             }
         }
-        //读取对应日期的finished和unfinished
+        // 为已完成和未完成的事件创建条目
+        for (int i = 0; i < 7; i++) {
+            finishedEntries.add(new BarEntry(i, finished[i]));
+            unfinishedEntries.add(new BarEntry(i, unfinished[i]));
+        }
 
 
         // Customize the horizontal axis.
@@ -158,19 +161,23 @@ public class StatisticFragment extends Fragment {
         xAxis.setDrawGridLines(false);
 
 
-
         // Create a BarDataSet object to represent the data in the chart.
         //写两个
-        BarDataSet dataSet = new BarDataSet(entries, "Finished");
+        BarDataSet finishedDataSet = new BarDataSet(finishedEntries, "Finished");
+        finishedDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
 
-
-        // Customize the appearance of the bars.
-        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
         // Create a BarData object to hold the data.
-        BarData barData = new BarData(dataSet);
+        BarDataSet unfinishedDataSet = new BarDataSet(unfinishedEntries, "Unfinished");
+        // Customize the appearance of the unfinished event bars.
+        unfinishedDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
+        dataSets.add(finishedDataSet);
+        dataSets.add(unfinishedDataSet);
+
+        // Create a BarData object to hold the data.
+        BarData barData = new BarData(dataSets);
         // Set the BarData object on the chart.
         binding.barChart.setData(barData);
 
@@ -179,15 +186,17 @@ public class StatisticFragment extends Fragment {
         binding.barChart.animateY(1000);
 
 
-
         // Customize the vertical axis.
         YAxis yAxis = binding.barChart.getAxisLeft();
         yAxis.setAxisMinimum(0f);
         yAxis.setGranularity(1f);
         yAxis.setDrawGridLines(false);
 
+
         //refresh the chart
         binding.barChart.invalidate();
+
+
     }
 
     private void setUpPieChart() {
