@@ -1,83 +1,248 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/Add_Title_Edt"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="Title" />
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/Add_Content_Edt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/Add_Title_Edt"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="Content" />
+        <EditText
+            android:id="@+id/Add_Name"
+            android:layout_width="match_parent"
+            android:layout_height="50sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:inputType="none"
+            android:hint=""
+            android:background="@null" />
 
-    <TextView
-        android:id="@+id/Add_Location_Edt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/Add_Content_Edt"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="Content" />
+        <LinearLayout
+            android:id="@+id/Add_Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            android:layout_below="@id/Add_Name">
 
-    <Button
-        android:id="@+id/Add_Location_Btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/Add_Location_Edt"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Locate" />
+            <TextView
+                android:id="@+id/Add_Title_Tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:text="Title:"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textAlignment="gravity"
+                android:gravity="right|center_vertical" />
 
-    <CalendarView
-        android:id="@+id/Add_calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/Add_Location_Btn"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" />
+            <EditText
+                android:id="@+id/Add_Title_Edt"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:hint="" />
 
-    <CheckBox
-        android:id="@+id/Add_Isfinish_Cb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/Add_calendarView"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:visibility="gone"
-        android:text="Finished" />
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/Add_Save_Btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/Add_Isfinish_Cb"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Save" />
+        <LinearLayout
+            android:id="@+id/Add_Content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_below="@id/Add_Title">
 
-    <Button
-        android:id="@+id/Add_Cancel_Btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/Add_Save_Btn"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Cancel" />
+            <TextView
+                android:id="@+id/Add_Content_Tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:text="Content:"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textAlignment="gravity"
+                android:gravity="right|center_vertical" />
 
-</RelativeLayout>
+            <EditText
+                android:id="@+id/Add_Content_Edt"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:hint="" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/Add_Location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_below="@id/Add_Content">
+
+            <TextView
+                android:id="@+id/Add_Loaction_Tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:text="Address:"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textAlignment="gravity"
+                android:gravity="right|center_vertical" />
+
+            <EditText
+                android:id="@+id/Add_Location_Edt"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:inputType="none"
+                android:hint="" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/Add_Weather"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_below="@id/Add_Location">
+
+            <TextView
+                android:id="@+id/Add_Temperature_Tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:text="Temp:"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textAlignment="gravity"
+                android:gravity="right|center_vertical" />
+
+            <EditText
+                android:id="@+id/Add_Temperature_Edt"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:inputType="none"
+                android:hint="" />
+
+            <TextView
+                android:id="@+id/Add_Weather_Tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:text="Weather:"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textAlignment="gravity"
+                android:gravity="right|center_vertical" />
+
+            <EditText
+                android:id="@+id/Add_Weather_Edt"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:inputType="none"
+                android:hint="" />
+
+
+        </LinearLayout>
+
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/Add_Weather"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        android:layout_marginTop="16dp"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        android:layout_marginEnd="16dp"-->
+    <!--        android:layout_below="@id/Add_Location">-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/Add_Weather_Tv"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_weight="0.4"-->
+    <!--            android:text="Weather:"-->
+    <!--            android:textStyle="bold"-->
+    <!--            android:textSize="18sp"-->
+    <!--            android:textAlignment="gravity"-->
+    <!--            android:gravity="right|center_vertical" />-->
+
+    <!--        <EditText-->
+    <!--            android:id="@+id/Add_Weather_Edt"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_weight="0.6"-->
+    <!--            android:inputType="none"-->
+    <!--            android:hint="" />-->
+    <!--    </LinearLayout>-->
+
+
+        <Button
+            android:id="@+id/Add_Location_Btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Add_Weather"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Locate" />
+
+        <CalendarView
+            android:id="@+id/Add_calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Add_Location_Btn"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+
+        <CheckBox
+            android:id="@+id/Add_Isfinish_Cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Add_calendarView"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:visibility="gone"
+            android:text="Finished" />
+
+        <Button
+            android:id="@+id/Add_Save_Btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Add_Isfinish_Cb"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/Add_Cancel_Btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Add_Save_Btn"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Cancel" />
+
+    </RelativeLayout>
+</ScrollView>

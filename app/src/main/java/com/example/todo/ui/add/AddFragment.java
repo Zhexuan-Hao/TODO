@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,6 +20,10 @@ import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import com.example.todo.R;
+import com.example.todo.Retrofit.RetrofitClient;
+import com.example.todo.Retrofit.Weather.Constant;
+import com.example.todo.Retrofit.Weather.WeatherResponse;
+import com.example.todo.Retrofit.Weather.WeatherService;
 import com.example.todo.Room.Entity.Event;
 import com.example.todo.Room.ViewModel.EventViewModel;
 import com.example.todo.WorkManager.MyWorker;
@@ -31,6 +36,10 @@ import com.google.firebase.database.annotations.Nullable;
 import java.util.Calendar;
 import java.util.Date;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class AddFragment extends Fragment {
 
     private FragmentAddBinding binding;
@@ -40,6 +49,8 @@ public class AddFragment extends Fragment {
     private FirebaseUser user;
 
     private Event event;
+    private WeatherService weatherService;
+    private Call<WeatherResponse> callWeather;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -52,6 +63,8 @@ public class AddFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
 
+        weatherService = RetrofitClient.getRetrofitInstance(Constant.BASE_URL).create(WeatherService.class);
+
         if(getArguments() != null) {
             AddFragmentArgs addFragmentArgs = AddFragmentArgs.fromBundle(getArguments());
             if (addFragmentArgs.getEvent() != null) {
@@ -63,11 +76,34 @@ public class AddFragment extends Fragment {
                 if(event.getDate() != null) {
                     binding.AddCalendarView.setDate(event.getDate().getTime());
                 }
+                if (event.getAddress() != null) {
+                    callWeather = weatherService.getWeather(event.getLatitude(), event.getLongitude(), Constant.KEY);
+                    callWeather.enqueue(new Callback<WeatherResponse>() {
+                        @Override
+                        public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
+                            if (response.isSuccessful()) {
+                                WeatherResponse weatherResponse = response.body();
+                                binding.AddTemperatureEdt.setText(weatherResponse.getMain().getTemp());
+                                binding.AddWeatherEdt.setText(weatherResponse.getWeather()[0].getMain());
+                            } else {
+                                Toast.makeText(getContext() ,"Fail to get weather", Toast.LENGTH_SHORT);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<WeatherResponse> call, Throwable t) {
+                            Toast.makeText(getContext() ,"Fail to get weather", Toast.LENGTH_SHORT);
+                        }
+                    });
+                }
+                binding.AddName.setText("Edit Event");
             } else {
                 event = new Event();
+                binding.AddName.setText("Add Event");
             }
         } else {
             event = new Event();
+            binding.AddName.setText("Add Event");
         }
 
         if (event.getUser_id() != null) {
