@@ -54,6 +54,8 @@
         android:layout_marginTop="138dp"
         android:ems="10"
         android:inputType="none"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         app:layout_constraintStart_toEndOf="@+id/textView9"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -65,6 +67,8 @@
         android:layout_marginTop="1dp"
         android:ems="10"
         android:inputType="none"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         app:layout_constraintStart_toEndOf="@+id/textView10"
         app:layout_constraintTop_toBottomOf="@+id/Mine_Email_Edt" />
 
@@ -87,4 +91,24 @@
         android:text="Download"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Mine_Upload_Btn" />
+
+    <Button
+        android:id="@+id/Mine_NicknameChange_Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="40dp"
+        android:text="NicknameChange"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <Button
+        android:id="@+id/Mine_PasswordChange_Btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="28dp"
+        android:text="PASSWORDCHANGE"
+        app:layout_constraintStart_toEndOf="@+id/Mine_NicknameChange_Btn"
+        app:layout_constraintTop_toBottomOf="@+id/Mine_Nickname_Edt" />
 </androidx.constraintlayout.widget.ConstraintLayout>
