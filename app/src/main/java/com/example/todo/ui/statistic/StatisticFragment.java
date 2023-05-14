@@ -164,14 +164,11 @@ public class StatisticFragment extends Fragment {
         // Create a BarDataSet object to represent the data in the chart.
         //写两个
         BarDataSet finishedDataSet = new BarDataSet(finishedEntries, "Finished");
-        finishedDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-
-
-
+        finishedDataSet.setColors(Color.BLUE);
         // Create a BarData object to hold the data.
         BarDataSet unfinishedDataSet = new BarDataSet(unfinishedEntries, "Unfinished");
         // Customize the appearance of the unfinished event bars.
-        unfinishedDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        unfinishedDataSet.setColors(Color.RED);
 
         dataSets.add(finishedDataSet);
         dataSets.add(unfinishedDataSet);
@@ -188,9 +185,14 @@ public class StatisticFragment extends Fragment {
 
         // Customize the vertical axis.
         YAxis yAxis = binding.barChart.getAxisLeft();
-        yAxis.setAxisMinimum(0f);
+        yAxis.setAxisMinimum(0);
         yAxis.setGranularity(1f);
         yAxis.setDrawGridLines(false);
+
+        binding.barChart.setDrawValueAboveBar(true);
+        binding.barChart.setDrawGridBackground(true);
+        binding.barChart.setGridBackgroundColor(Color.WHITE);
+        binding.barChart.setDrawBarShadow(true);
 
 
         //refresh the chart
