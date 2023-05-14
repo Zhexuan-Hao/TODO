@@ -107,8 +107,8 @@ public class MineFragment extends Fragment {
                         }
                         else {
                             Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                            List<HashMap> value = (List<HashMap>) task.getResult().getValue();
-                            for (HashMap o : value) {
+                            for (DataSnapshot child : task.getResult().getChildren()) {
+                                HashMap o = (HashMap) child.getValue();
                                 if(o != null) {
                                     Event event = new Event();
                                     if(o.get("address") != null) {
@@ -136,6 +136,7 @@ public class MineFragment extends Fragment {
                                     eventViewModel.insert(event);
                                 }
                             }
+
                         }
                     }
                 });
