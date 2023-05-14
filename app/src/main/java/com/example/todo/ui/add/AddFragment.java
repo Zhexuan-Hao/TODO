@@ -1,5 +1,6 @@
 package com.example.todo.ui.add;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -147,27 +148,51 @@ public class AddFragment extends Fragment {
                                 String state = workInfo.getState().name();
                             }
                         });
-                event.setTitle(binding.AddTitleEdt.getText().toString());
-                event.setContent(binding.AddContentEdt.getText().toString());
-                event.setAddress(binding.AddLocationEdt.getText().toString());
-                if(event.getDate() == null) {
-                    event.setDate(new Date());
-                }
-                if(event.getUser_id() == null) {
-                    event.setUser_id(user.getUid());
-                    event.setStatus(0);
-                    eventViewModel.insert(event);
-                } else {
-                    if (binding.AddIsfinishCb.isChecked()) {
-                        event.setStatus(1);
-                    } else {
-                        event.setStatus(0);
-                    }
-                    eventViewModel.update(event);
+                String title = binding.AddTitleEdt.getText().toString().trim();
+                String content = binding.AddContentEdt.getText().toString().trim();
+                String location = binding.AddLocationEdt.getText().toString().trim();
+
+                if (title.isEmpty() || content.isEmpty() || location.isEmpty()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Alert");
+                    builder.setMessage("Title, content and location cannot be empty");
+                    builder.setPositiveButton("Confirm", null);
+                    builder.show();
                 }
 
-                NavController navController = Navigation.findNavController(root);
-                navController.navigate(R.id.action_nav_add_to_nav_dashboard);
+                else if (Character.isDigit(title.charAt(0))) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Alert");
+                    builder.setMessage("Title can not start with number");
+                    builder.setPositiveButton("Confirm", null);
+                    builder.show();
+                }
+
+                else {
+                    event.setTitle(binding.AddTitleEdt.getText().toString());
+                    event.setContent(binding.AddContentEdt.getText().toString());
+                    event.setAddress(binding.AddLocationEdt.getText().toString());
+                    if(event.getDate() == null) {
+                        event.setDate(new Date());
+                    }
+                    if(event.getUser_id() == null) {
+                        event.setUser_id(user.getUid());
+                        event.setStatus(0);
+                        eventViewModel.insert(event);
+                    } else {
+                        if (binding.AddIsfinishCb.isChecked()) {
+                            event.setStatus(1);
+                        } else {
+                            event.setStatus(0);
+                        }
+                        eventViewModel.update(event);
+                    }
+
+                    NavController navController = Navigation.findNavController(root);
+                    navController.navigate(R.id.action_nav_add_to_nav_dashboard);
+                }
+
+
             }
         });
 
