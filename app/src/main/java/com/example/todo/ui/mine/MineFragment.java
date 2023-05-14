@@ -116,7 +116,7 @@ public class MineFragment extends Fragment {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
-                                            Toast.makeText(getContext(), "Username updated!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "Nickname updated!", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
