@@ -52,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if(isValidEmail(email) && isValidPassword(password)) {
 
-                    if(password.equals(passwordConfirm)) {
+                    if(!password.equals(passwordConfirm)) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setTitle("Alert");
                         builder.setMessage("Two passwords must be same");
@@ -65,10 +65,14 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Alert");
-                    builder.setMessage("Email format should be valid. \n" + "The password must contain at least one special character.\n" +
-                            "The password must contain at least one uppercase letter and one lowercase letter.\n" +
-                            "The password must contain at least one digit.\n" +
-                            "The password length must be between 6 to 16 characters. ");
+                    if (!isValidEmail(email)) {
+                        builder.setMessage("Email format should be valid.");
+                    } else if (!isValidPassword(password)) {
+                        builder.setMessage("The password must contain at least one special character.\n" +
+                                "The password must contain at least one uppercase letter and one lowercase letter.\n" +
+                                "The password must contain at least one digit.\n" +
+                                "The password length must be between 6 to 16 characters.");
+                    }
                     builder.setPositiveButton("Confirm", null);
                     builder.show();
 //                    Toast.makeText(context, "wrong format", Toast.LENGTH_SHORT).show();
