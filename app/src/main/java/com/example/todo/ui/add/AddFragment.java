@@ -97,7 +97,11 @@ public class AddFragment extends Fragment {
                         }
                     });
                 }
-                binding.AddName.setText("Edit Event");
+                if(event.getUser_id() != null) {
+                    binding.AddName.setText("Edit Event");
+                } else {
+                    binding.AddName.setText("Add Event");
+                }
             } else {
                 event = new Event();
                 binding.AddName.setText("Add Event");
