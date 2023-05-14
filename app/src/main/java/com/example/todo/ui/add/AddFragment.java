@@ -84,7 +84,7 @@ public class AddFragment extends Fragment {
                         public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
                             if (response.isSuccessful()) {
                                 WeatherResponse weatherResponse = response.body();
-                                binding.AddTemperatureEdt.setText(weatherResponse.getMain().getTemp());
+                                binding.AddTemperatureEdt.setText(weatherResponse.getMain().getTemp() + "°F");
                                 binding.AddWeatherEdt.setText(weatherResponse.getWeather()[0].getMain());
                             } else {
                                 Toast.makeText(getContext() ,"Fail to get weather", Toast.LENGTH_SHORT);
