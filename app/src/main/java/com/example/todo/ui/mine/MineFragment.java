@@ -28,8 +28,6 @@ import com.example.todo.Room.Entity.User;
 import com.example.todo.Room.ViewModel.EventViewModel;
 import com.example.todo.WelcomeActivity;
 import com.example.todo.databinding.FragmentMineBinding;
-import com.example.todo.databinding.FragmentSlideshowBinding;
-import com.example.todo.ui.slideshow.SlideshowViewModel;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -62,8 +60,6 @@ public class MineFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SlideshowViewModel slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);
 
         binding = FragmentMineBinding.inflate(inflater, container, false);
         View root = binding.getRoot();

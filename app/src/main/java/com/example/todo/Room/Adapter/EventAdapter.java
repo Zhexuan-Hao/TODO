@@ -25,7 +25,6 @@ import com.example.todo.Room.Entity.Event;
 import com.example.todo.Room.ViewModel.EventViewModel;
 import com.example.todo.ui.dashboard.DashboardFragment;
 import com.example.todo.ui.dashboard.DashboardFragmentDirections;
-import com.example.todo.ui.detail.DetailFragment;
 
 public class EventAdapter extends ListAdapter<Event, EventAdapter.EventViewHolder> {
 
