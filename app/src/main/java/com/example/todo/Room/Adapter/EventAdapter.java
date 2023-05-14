@@ -26,6 +26,9 @@ import com.example.todo.Room.ViewModel.EventViewModel;
 import com.example.todo.ui.dashboard.DashboardFragment;
 import com.example.todo.ui.dashboard.DashboardFragmentDirections;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 public class EventAdapter extends ListAdapter<Event, EventAdapter.EventViewHolder> {
 
     private EventViewModel eventViewModel;
@@ -50,7 +53,10 @@ public class EventAdapter extends ListAdapter<Event, EventAdapter.EventViewHolde
     public void onBindViewHolder(EventViewHolder holder, int position) {
         Event event = getItem(position);
         holder.nameTextView.setText(event.getTitle());
-        holder.dateTextView.setText(event.getDate().toString());
+        String pattern = "yyyy-MM-dd";
+        DateFormat dateFormat = new SimpleDateFormat(pattern);
+        String formattedDate = dateFormat.format(event.getDate());
+        holder.dateTextView.setText(formattedDate);
         holder.checkBox.setOnCheckedChangeListener(null);
         holder.checkBox.setChecked(event.getStatus() == 1);
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
