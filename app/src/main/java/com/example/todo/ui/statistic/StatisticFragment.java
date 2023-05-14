@@ -25,6 +25,7 @@ import com.example.todo.Room.Entity.Event;
 import com.example.todo.Room.ViewModel.EventViewModel;
 import com.example.todo.databinding.FragmentStatisticBinding;
 import com.example.todo.ui.home.HomeViewModel;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -71,18 +72,20 @@ public class StatisticFragment extends Fragment {
         eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
 
         eventList = eventViewModel.getEvents();
+
         eventViewModel.getEvents().observe(getViewLifecycleOwner(), new Observer<List<Event>>() {
             @Override
             public void onChanged(List<Event> events) {
                 setUpBarChart();
                 setUpPieChart();
-
             }
         });
 
         return root;
     }
     private void setUpBarChart() {
+
+
 
         // Get a reference to the BarChart view in the XML layout.
 
@@ -158,7 +161,12 @@ public class StatisticFragment extends Fragment {
         xAxis.setValueFormatter(new IndexAxisValueFormatter(xAxisValues));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1f);
+
+        xAxis.setAxisMinimum(0f);
+        xAxis.setAxisMaximum(7);
+        xAxis.setCenterAxisLabels(true);
         xAxis.setDrawGridLines(false);
+
 
 
         // Create a BarDataSet object to represent the data in the chart.
@@ -175,11 +183,23 @@ public class StatisticFragment extends Fragment {
 
         // Create a BarData object to hold the data.
         BarData barData = new BarData(dataSets);
+//设置组间距占比30% 每条柱状图宽度占比 70% /barAmount  柱状图间距占比 0%
+        float groupSpace = 0.3f; //柱状图组之间的间距
+        float barWidth = (1f - groupSpace) / 2;
+        float barSpace = 0f;
+//设置柱状图宽度
+        barData.setBarWidth(barWidth);
+//(起始点、柱状图组间距、柱状图之间间距)
+        barData.groupBars(0f, groupSpace, barSpace);
+
+
         // Set the BarData object on the chart.
         binding.barChart.setData(barData);
 
+
+
         // Customize the appearance of the chart.
-        binding.barChart.getDescription().setText("Weekly Quantity");
+        binding.barChart.getDescription().setText("");
         binding.barChart.animateY(1000);
 
 
@@ -190,7 +210,7 @@ public class StatisticFragment extends Fragment {
         yAxis.setDrawGridLines(false);
 
         binding.barChart.setDrawValueAboveBar(true);
-        binding.barChart.setDrawGridBackground(true);
+//        binding.barChart.setDrawGridBackground(true);
         binding.barChart.setGridBackgroundColor(Color.WHITE);
         binding.barChart.setDrawBarShadow(true);
 

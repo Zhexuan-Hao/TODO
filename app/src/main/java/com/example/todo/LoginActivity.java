@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Alert");
-                    builder.setMessage("Email format should be valid. \n password must contain at least one special character.\n" +
+                    builder.setMessage("Email format should be valid. \n" + "The password must contain at least one special character.\n" +
                             "The password must contain at least one uppercase letter and one lowercase letter.\n" +
                             "The password must contain at least one digit.\n" +
                             "The password length must be between 6 to 16 characters. ");

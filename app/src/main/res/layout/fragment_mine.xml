@@ -53,7 +53,7 @@
         android:layout_marginStart="35dp"
         android:layout_marginTop="138dp"
         android:ems="10"
-        android:inputType="textEmailAddress"
+        android:inputType="none"
         app:layout_constraintStart_toEndOf="@+id/textView9"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,7 +64,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="1dp"
         android:ems="10"
-        android:inputType="text"
+        android:inputType="none"
         app:layout_constraintStart_toEndOf="@+id/textView10"
         app:layout_constraintTop_toBottomOf="@+id/Mine_Email_Edt" />
 

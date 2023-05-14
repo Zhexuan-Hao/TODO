@@ -48,13 +48,24 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email = binding.RegisterEmailEdt.getText().toString();
                 String password = binding.RegisterPasswordEdt.getText().toString();
+                String passwordConfirm = binding.RegisterPasswordConfirmEdt.getText().toString();
 
                 if(isValidEmail(email) && isValidPassword(password)) {
-                    createAccount(email, password);
+
+                    if(password.equals(passwordConfirm)) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Alert");
+                        builder.setMessage("Two passwords must be same");
+                        builder.setPositiveButton("Confirm", null);
+                        builder.show();
+                    } else {
+                        createAccount(email, password);
+                    }
+
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Alert");
-                    builder.setMessage("Email format should be valid. \n password must contain at least one special character.\n" +
+                    builder.setMessage("Email format should be valid. \n" + "The password must contain at least one special character.\n" +
                             "The password must contain at least one uppercase letter and one lowercase letter.\n" +
                             "The password must contain at least one digit.\n" +
                             "The password length must be between 6 to 16 characters. ");
