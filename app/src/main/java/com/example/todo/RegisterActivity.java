@@ -3,6 +3,7 @@ package com.example.todo;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -51,7 +52,15 @@ public class RegisterActivity extends AppCompatActivity {
                 if(isValidEmail(email) && isValidPassword(password)) {
                     createAccount(email, password);
                 } else {
-                    Toast.makeText(context, "wrong format", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Alert");
+                    builder.setMessage("Email format should be valid. \n password must contain at least one special character.\n" +
+                            "The password must contain at least one uppercase letter and one lowercase letter.\n" +
+                            "The password must contain at least one digit.\n" +
+                            "The password length must be between 6 to 16 characters. ");
+                    builder.setPositiveButton("Confirm", null);
+                    builder.show();
+//                    Toast.makeText(context, "wrong format", Toast.LENGTH_SHORT).show();
                 }
 //                createAccount(email, password);
             }
