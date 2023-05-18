@@ -16,7 +16,7 @@
             android:layout_marginEnd="16dp"
             android:gravity="center"
             android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="26sp"
             android:inputType="none"
             android:hint=""
             android:background="@null" />
@@ -36,7 +36,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
-                android:text="Title:"
+                android:text="Title: "
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:textAlignment="gravity"
@@ -66,7 +66,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
-                android:text="Content:"
+                android:text="Content: "
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:textAlignment="gravity"
@@ -96,13 +96,13 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
-                android:text="Address:"
+                android:text="Address: "
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textAlignment="gravity"
                 android:gravity="right|center_vertical" />
 
-            <EditText
+            <TextView
                 android:id="@+id/Add_Location_Edt"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -110,7 +110,9 @@
                 android:inputType="none"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:hint="" />
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textAlignment="gravity" />
 
 
         </LinearLayout>
@@ -130,13 +132,13 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
-                android:text="Temp:"
+                android:text="Temp: "
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textAlignment="gravity"
                 android:gravity="right|center_vertical" />
 
-            <EditText
+            <TextView
                 android:id="@+id/Add_Temperature_Edt"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -144,20 +146,22 @@
                 android:inputType="none"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:hint="" />
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textAlignment="gravity"/>
 
             <TextView
                 android:id="@+id/Add_Weather_Tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
-                android:text="Weather:"
+                android:text="Weather: "
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textAlignment="gravity"
                 android:gravity="right|center_vertical" />
 
-            <EditText
+            <TextView
                 android:id="@+id/Add_Weather_Edt"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -165,7 +169,9 @@
                 android:inputType="none"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:hint="" />
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textAlignment="gravity"/>
 
 
         </LinearLayout>

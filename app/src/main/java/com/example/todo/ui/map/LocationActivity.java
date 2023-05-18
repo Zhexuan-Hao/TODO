@@ -102,7 +102,7 @@ public class LocationActivity extends AppCompatActivity {
                 System.out.println("信息："+uri.toString());
                 Intent intent = new Intent(LocationActivity.this, NavigationDrawerActivity.class);
                 intent.putExtra("id",1);
-                event.setAddress(positionname);
+                event.setAddress(positionname+"("+address+")");
                 event.setLatitude(Double.valueOf(lat));
                 event.setLongitude(Double.valueOf(lng));
                 intent.putExtra("city", rcity);
