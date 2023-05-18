@@ -10,13 +10,24 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.example.todo.R;
+import com.example.todo.RealtimeDatabase.EventService;
+import com.example.todo.Room.Entity.Event;
+import com.example.todo.Room.ViewModel.EventViewModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -32,9 +43,9 @@ public class MyWorker extends Worker {
     public Result doWork() {
         displayNotification("I am your WorkManager!!","Hey, you have task(s) to do! Don't forget!!");
         long timeGetTime =new Date().getTime();
-        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd-HH:mm:ssE",Locale.getDefault());
+        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss E",Locale.getDefault());
         String time = sdf.format(timeGetTime);
-        Log.d(TAG, "Here is WorkManager --->:"+time);
+        Log.d("WM", "Here is WorkManager ---> "+time);
         return Result.success();
     }
 

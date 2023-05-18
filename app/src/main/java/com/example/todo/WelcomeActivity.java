@@ -43,7 +43,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
         SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
         SensorEventListener stepDetector = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
@@ -55,7 +54,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 double MagnitudeDelta = Magnitude - MagnitudePrevious;
                 MagnitudePrevious = Magnitude;
 
-                if(MagnitudeDelta > 6){
+                if(MagnitudeDelta > 2){
                     stepCount++;
                 }
                 binding.step.setText("your steps: "+stepCount.toString());
@@ -66,7 +65,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
             }
         };
-
         sensorManager.registerListener(stepDetector,sensor,SensorManager.SENSOR_DELAY_NORMAL);
 
         binding.WelcomeStartBtn.setOnClickListener(new View.OnClickListener() {

@@ -34,6 +34,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.annotations.Nullable;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -84,7 +85,10 @@ public class AddFragment extends Fragment {
                         public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
                             if (response.isSuccessful()) {
                                 WeatherResponse weatherResponse = response.body();
-                                binding.AddTemperatureEdt.setText(weatherResponse.getMain().getTemp() + "°F");
+                                DecimalFormat df=new DecimalFormat("0.0");
+                                Double K = Double.parseDouble(weatherResponse.getMain().getTemp())-273.15;
+                                String temp = df.format(K);
+                                binding.AddTemperatureEdt.setText(temp + "°C");
                                 binding.AddWeatherEdt.setText(weatherResponse.getWeather()[0].getMain());
                             } else {
                                 Toast.makeText(getContext() ,"Fail to get weather", Toast.LENGTH_SHORT);
