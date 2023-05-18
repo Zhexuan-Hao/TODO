@@ -1,4 +1,4 @@
-package com.example.todo.ui.mine;
+package com.example.todo.ui.add.mine;
 
 import android.app.AlertDialog;
 import android.content.Context;

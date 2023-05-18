@@ -88,7 +88,7 @@ public class AddFragment extends Fragment {
                                 DecimalFormat df=new DecimalFormat("0.0");
                                 Double K = Double.parseDouble(weatherResponse.getMain().getTemp())-273.15;
                                 String temp = df.format(K);
-                                binding.AddTemperatureEdt.setText(temp + "°C");
+                                binding.AddTemperatureEdt.setText(temp+"°C");
                                 binding.AddWeatherEdt.setText(weatherResponse.getWeather()[0].getMain());
                             } else {
                                 Toast.makeText(getContext() ,"Fail to get weather", Toast.LENGTH_SHORT);

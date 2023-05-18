@@ -13,6 +13,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Toast;
 
 import com.example.todo.Retrofit.RetrofitClient;
@@ -40,9 +42,9 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         context = WelcomeActivity.this;
 
-
         SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
         SensorEventListener stepDetector = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
@@ -50,14 +52,14 @@ public class WelcomeActivity extends AppCompatActivity {
                 float y = event.values[1];
                 float z = event.values[2];
 
-                double Magnitude = Math.sqrt(x*x+y*y+z*z);
+                double Magnitude = Math.sqrt(x * x + y * y + z * z);
                 double MagnitudeDelta = Magnitude - MagnitudePrevious;
                 MagnitudePrevious = Magnitude;
 
-                if(MagnitudeDelta > 2){
+                if (MagnitudeDelta > 2) {
                     stepCount++;
                 }
-                binding.step.setText("your steps: "+stepCount.toString());
+                binding.step.setText("your steps: " + stepCount.toString());
             }
 
             @Override
